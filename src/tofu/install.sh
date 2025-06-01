@@ -22,34 +22,51 @@ check_packages() {
 
 export DEBIAN_FRONTEND=noninteractive
 
+# OpenTofu version configuration
 # https://github.com/opentofu/opentofu/releases
 VERSION=${VERSION:-"latest"}
 
 echo "Activating feature 'tofu'"
 
-# Clean up.
+# Clean up old package lists
 rm -rf /var/lib/apt/lists/*
 
+# Install required dependencies
 check_packages ca-certificates curl dirmngr gpg gpg-agent
 
+# Normalize version tag format
 case "${VERSION}" in
-    latest | v*) TAG="$VERSION"; ;;
-    *)           TAG="v${VERSION}"; ;;
+    latest | v*)
+        TAG="$VERSION"
+        ;;
+    *)
+        TAG="v${VERSION}"
+        ;;
 esac
 
 INSTALLER="install-opentofu.sh"
 
-# Download the installer script:
-curl "https://get.opentofu.org/${INSTALLER}" --proto '=https' --tlsv1.2 -fsSLO --compressed --retry 5 ||
-      (echo "error: failed to download: ${TAG}" && exit 1)
+# Download the installer script
+curl "https://get.opentofu.org/${INSTALLER}" \
+    --proto '=https' \
+    --tlsv1.2 \
+    -fsSLO \
+    --compressed \
+    --retry 5 || {
+        echo "error: failed to download: ${TAG}"
+        exit 1
+    }
 
-# Give it execution permissions:
-chmod +x $INSTALLER
+# Set installer permissions
+chmod +x "${INSTALLER}"
 
-su ${_REMOTE_USER} -c "./${INSTALLER} --install-method deb --opentofu-version ${VERSION}" ||
-    (echo "error: failed to install tofu." && exit 1)
+# Run installer as non-root user
+su "${_REMOTE_USER}" -c "./${INSTALLER} --install-method deb --opentofu-version ${VERSION}" || {
+    echo "error: failed to install tofu."
+    exit 1
+}
 
-# Clean up
-rm -rf $INSTALLER
+# Clean up installer
+rm -rf "${INSTALLER}"
 
 echo "Done!"
