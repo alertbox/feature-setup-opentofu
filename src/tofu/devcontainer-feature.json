@@ -1,0 +1,34 @@
+{
+    "id": "tofu",
+    "name": "Setup OpenTofu",
+    "version": "1.0.0",
+    "description": "Download, install, and setup specific version of OpenTofu in your Dev Container.",
+    "documentationURL": "https://github.com/alertbox/feature-setup-opentofu/tree/main/src/tofu",
+    "options": {
+        "version": {
+            "type": "string",
+            "proposals": [
+                "latest"
+            ],
+            "default": "latest",
+            "description": "Select or enter a version."
+        }
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "4ops.terraform"
+            ],
+            "settings": {
+                "github.copilot.chat.codeGeneration.instructions": [
+                    {
+                        "text": "This dev container includes `tofu` pre-installed and available on the `PATH` for OpenTofu, Terraform and infrastructure as code development."
+                    }
+                ]
+            }
+        }
+    },
+    "dependsOn": {
+        "ghcr.io/devcontainers/features/common-utils": {}
+    }
+}
