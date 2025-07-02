@@ -21,7 +21,9 @@ Download, install, and setup specific version of OpenTofu in your Dev Container.
 
 ### VS Code Extensions
 
-- `4ops.terraform`
+- `ms-azuretools.vscode-azureterraform`
+- `hashicorp.terraform`
+- `opentofu.vscode-opentofu`
 
 
 
