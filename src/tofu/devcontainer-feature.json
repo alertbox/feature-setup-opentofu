@@ -1,7 +1,7 @@
 {
     "id": "tofu",
     "name": "Setup OpenTofu",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "Download, install, and setup specific version of OpenTofu in your Dev Container.",
     "documentationURL": "https://github.com/alertbox/feature-setup-opentofu/tree/main/src/tofu",
     "options": {
@@ -17,7 +17,9 @@
     "customizations": {
         "vscode": {
             "extensions": [
-                "4ops.terraform"
+                "ms-azuretools.vscode-azureterraform",
+                "hashicorp.terraform",
+                "opentofu.vscode-opentofu"
             ],
             "settings": {
                 "github.copilot.chat.codeGeneration.instructions": [
